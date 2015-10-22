@@ -20,11 +20,11 @@ public class proteinSequenceDuplicateChecker{
 			try (BufferedReader br = new BufferedReader(new FileReader(args[i]))) {
 			    String line;
 			    while ((line = br.readLine()) != null) {
-			    	//Check if it is a valid line
+			    	//Check if it is a valid line - thus more of the current protein sequence
 			    	if(!line.isEmpty()){
 			    		sequence += line;
 			    	}
-			    	//New line - ready for hashmap
+			    	//New line - end of sequence - ready for hashmap
 			    	else{
 			    		addToHashMap(sequence);
 			    		sequence = "";
@@ -42,6 +42,7 @@ public class proteinSequenceDuplicateChecker{
 		System.out.println("Number of duplicates: "+duplicateCount);
 	}
 
+	//Adds inputSequence parameter to global 'sequenceMap' HashMap
 	static private void addToHashMap(String inputSequence){
 		Integer value = sequenceMap.get(inputSequence);
 		if (value != null) {
@@ -52,8 +53,8 @@ public class proteinSequenceDuplicateChecker{
 		}
 	}
 
-	static private void printHashMap(){
-		//Prints HashMapToOutput
+	//Prints HashMap to output file 'DuplicateSequences.txt'
+	static private void printHashMap()
 		try (PrintWriter writeOut = new PrintWriter("DuplicateSequences.txt", "UTF-8")){
 			for (Map.Entry<String, Integer> entry : sequenceMap.entrySet()) {
 				if(entry.getValue() > 1){
